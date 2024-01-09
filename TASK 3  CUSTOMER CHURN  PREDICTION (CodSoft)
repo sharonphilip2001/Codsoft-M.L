@@ -12,13 +12,6 @@ df = pd.read_csv('/content/Churn_Modelling-3.csv')
 # Explore the data
 print(df.head())
 
-
-
-
-# Assuming you have features like 'usage_behavior', 'customer_demographics', etc.
-# Ensure that the 'Churn' column represents the target variable (1 for churn, 0 for no churn)
-
-
 # Choose a classifier (e.g., Logistic Regression, Random Forest, Gradient Boosting)
 # Uncomment the desired classifier and comment out the others based on your choice
 
