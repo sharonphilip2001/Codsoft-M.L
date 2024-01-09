@@ -12,17 +12,13 @@ df = pd.read_csv('/content/Churn_Modelling-3.csv')
 # Explore the data
 print(df.head())
 
-# Choose a classifier (e.g., Logistic Regression, Random Forest, Gradient Boosting)
-# Uncomment the desired classifier and comment out the others based on your choice
 
-# Logistic Regression
-# classifier = LogisticRegression()
+# Handle missing values if any
+data = data.dropna()
 
-# Random Forest
-classifier = RandomForestClassifier(n_estimators=100, random_state=42)
+# Encode categorical variables if needed
+data = pd.get_dummies(data)
 
-# Gradient Boosting
-# classifier = GradientBoostingClassifier(n_estimators=100, random_state=42)
 
 # Evaluate the models
 def evaluate_model(predictions, actual_labels, model_name):
