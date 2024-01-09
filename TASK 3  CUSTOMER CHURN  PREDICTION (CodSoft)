@@ -1,0 +1,38 @@
+# Import necessary libraries
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+
+# Load your dataset
+df = pd.read_csv('/content/Churn_Modelling-3.csv')
+
+# Explore the data
+print(df.head())
+
+# Assuming you have features like 'usage_behavior', 'customer_demographics', etc.
+# Ensure that the 'Churn' column represents the target variable (1 for churn, 0 for no churn)
+
+
+
+
+# Choose a classifier (e.g., Logistic Regression, Random Forest, Gradient Boosting)
+# Uncomment the desired classifier and comment out the others based on your choice
+
+# Logistic Regression
+# classifier = LogisticRegression()
+
+# Random Forest
+classifier = RandomForestClassifier(n_estimators=100, random_state=42)
+
+# Gradient Boosting
+# classifier = GradientBoostingClassifier(n_estimators=100, random_state=42)
+
+# Evaluate the models
+def evaluate_model(predictions, actual_labels, model_name):
+    accuracy = accuracy_score(actual_labels, predictions)
+    report = classification_report(actual_labels, predictions)
+    print(f"Accuracy of {model_name}: {accuracy}")
+    print(f"Classification Report of {model_name}:\n{report}\n")
