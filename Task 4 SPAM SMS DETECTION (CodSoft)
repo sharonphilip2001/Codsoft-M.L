@@ -1,0 +1,63 @@
+pip install scikit-learn nltk
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+from sklearn.pipeline import make_pipeline
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+from nltk.stem import PorterStemmer
+
+# Download NLTK resources
+import nltk
+nltk.download('stopwords')
+nltk.download('punkt')
+
+# Load your SMS dataset
+df = pd.read_csv('/content/spam.csv', encoding = 'latin-1')
+
+# Explore the data
+print(df.head())
+# Assuming your dataset has two columns: 'text' and 'label' (spam or ham)
+# You can replace this with your actual dataset loading code
+# For simplicity, I'm using a hypothetical dataset here
+data = {
+    'text': ["Claim your prize now!", "Hi, how are you?", "Free trial offer", "Meeting at 3 pm"],
+    'label': ['spam', 'ham', 'spam', 'ham']
+}
+df = pd.DataFrame(data)
+
+# Data preprocessing
+stop_words = set(stopwords.words('english'))
+stemmer = PorterStemmer()
+
+def preprocess_text(text):
+    words = word_tokenize(text)
+    words = [stemmer.stem(word) for word in words if word.isalnum()]  # Perform stemming
+    words = [word.lower() for word in words if word.isalnum() and word.lower() not in stop_words]  # Remove stop words and convert to lowercase
+    return ' '.join(words)
+
+df['processed_text'] = df['text'].apply(preprocess_text)
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(df['processed_text'], df['label'], test_size=0.2, random_state=42)
+
+# Create a pipeline with TF-IDF vectorizer and Naive Bayes classifier
+model = make_pipeline(TfidfVectorizer(), MultinomialNB())
+
+# Train the model
+model.fit(X_train, y_train)
+
+# Make predictions
+y_pred = model.predict(X_test)
+
+# Evaluate the model
+accuracy = accuracy_score(y_test, y_pred)
+conf_matrix = confusion_matrix(y_test, y_pred)
+classification_rep = classification_report(y_test, y_pred)
+
+print(f'Accuracy: {accuracy}')
+print(f'Confusion Matrix:\n{conf_matrix}')
+print(f'Classification Report:\n{classification_rep}')
+
